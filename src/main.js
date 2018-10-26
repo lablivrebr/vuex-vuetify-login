@@ -1,20 +1,19 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
-import Axios from 'axios'
+import Vue from 'vue';
+import VeeValidate from 'vee-validate';
 
-Vue.prototype.$http = Axios;
+import { store } from './_store';
+import { router } from './_helpers';
+import App from './app/App';
 
-const token = localStorage.getItem('user-token')
-if (token) {
-    Vue.prototype.$http.defaults.headers.common['Authorization'] = token
-}
+Vue.use(VeeValidate);
 
-Vue.config.productionTip = false
+// setup fake backend
+import { configureFakeBackend } from './_helpers';
+configureFakeBackend();
 
 new Vue({
+    el: '#app',
     router,
     store,
     render: h => h(App)
-}).$mount('#app')
+});
